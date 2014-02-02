@@ -1,0 +1,93 @@
+<p>I am working on my first significant little project in Haskell; some code should appear on Github in the not-too-distant future. This has spawned some thoughts on the language as a whole:</p>
+
+<h2 id="the_good_parts">The Good Parts:</h2>
+
+<ul>
+<li>
+<p><strong>Pure functions</strong>. This is probably the single biggest win versus most mainstream languages. If you don’t believe me, listen to John Carmack talk about his experience: <a href="http://www.youtube.com/watch?v=1PhArSujR_A">youtube link</a>. The ability to statically guarantee that a function is free of side-effects is <em>absolutely huge</em>, and opens up all sorts of opportunities for cleaner code.</p>
+</li>
+
+<li>
+<p><strong>Static type-checking</strong>. Guarantee at compile-time that the inputs to a function must satisfy specified properties. This can be done with smart constructors, but also via static guarantees in the type system itself, e.g. <a href="http://byorgey.wordpress.com/2010/06/29/typed-type-level-programming-in-haskell-part-i-functional-dependencies">Brent’s blog</a>.</p>
+</li>
+
+<li>
+<p><strong>Immutable data, referential transparency</strong>. Enables declarative-style programming and equational reasoning about the meaning of code. Factoring out functionality is trivial: pull out some pure code and you have a new pure function.</p>
+</li>
+
+<li>
+<p>Corollary: <strong>Variables are immutable</strong>: never again will I have to run a loop in my head to keep track of <em>n</em> odd variables, <em>m</em> of which are updated upon satisfaction of <em>k</em> conditions that are evaluated on each iteration! I am probably not alone in having spent <em>hours</em> of my life in the past tracking down bugs in imperative loops with mutable variables.</p>
+</li>
+
+<li>
+<p><strong>No loops</strong>. In particular, <em>no large, messy loops</em> like one often sees in imperative business code. Unlike opening an imperative loop where you can just play around mutating variables willy-nilly, Haskell forces you to <em>think first</em> about what you are doing: what set of objects is this iterating over? Does the order of iteration matter? Should the objects be evaluated in parallel? Exactly what is being accumulated, and why?</p>
+</li>
+
+<li>
+<p>Almost <strong>trivial to add parallelism</strong> to code: running on multiple cores is often just a matter of evaluating the elements of a list in parallel. <a href="http://hackage.haskell.org/package/parallel-3.2.0.4/docs/Control-Parallel-Strategies.html">That’s parList</a>.</p>
+</li>
+
+<li>
+<p>Kick-ass <strong>profiling and debugging tools</strong>, e.g. cost center profiling and <a href="http://www.haskell.org/haskellwiki/ThreadScope_Tour">threadscope</a>. In particular, these allow us to easily evaluate performance gains due to parallelism. <a href="http://www.haskell.org/haskellwiki/Introduction_to_QuickCheck1">QuickCheck</a> provides automated fuzz-testing: just provide your definition of what “arbitrary” instances of your types should look like, and it can try to break your functions with random instances of these types, or check that your functions satisfy given properties. All of this stuff is just “standard” - you probably don’t need valgrind.</p>
+</li>
+
+<li>
+<p><strong>Pervasive laziness</strong>. This is just plain cool: Haskell uses a non-strict evaluation strategy for expressions by default, meaning that it doesn’t evaluate anything that it doesn’t have to. People complain that this can result in space leaks, but this is largely mitigated by modern libraries and profiling tools (especially heap profiling). I have found that trying to force strictness can actually slow my programs down, meaning that sometimes strict programs evaluate more than necessary - probably without even realizing it!</p>
+</li>
+
+<li>
+<p>Access to <strong>referentially transparent local mutable state</strong> when you absolutely need it: the state thread monad.</p>
+</li>
+
+<li>
+<p><strong>REPL interpreter</strong> (ghci) for testing code as it is developed. Most modern languages have finally (almost) caught up to Forth in this regard. Forth still provides much finer granularity over the compilation process. Type inference here is a big deal: write functions and let Haskell figure out in which type you’ve landed, and then import the signature when you are finished.</p>
+</li>
+
+<li>
+<p><strong>Newtypes</strong>. Thin (i.e. nonexistent at runtime) wrappers to give existing types new behaviors.</p>
+</li>
+
+<li>
+<p><strong>Type classes</strong>. A static (i.e. safe) alternative to the “duck typing” of dynamic languages.</p>
+</li>
+</ul>
+
+<h2 id="the_bad_parts">The “Bad” Parts</h2>
+
+<ul>
+<li>
+<p>Coming from the imperative world, I had to get used to the idea that I <strong>couldn’t stick in “print” statements everywhere</strong> to understand why certain functions were not working as expected, especially in loops. Functions like “scanl” and “iterate” are helpful in this regard. Since an interpreter is available, these sorts of errors do not happen all that often. Factoring out functions to test them separately can help.</p>
+</li>
+
+<li>
+<p><strong>Syntax and parser errors</strong> took some getting used to. I was confused for a good while about how the parser treats the “$” function, and how to use “$” in combination with “.” without getting long error messages from ghci.</p>
+</li>
+
+<li>
+<p>Applying the wrong number of arguments to functions can result in some very intimidating error messages at times. <strong>The type system tries really hard to make sense of your stupid mistakes</strong>, sometimes to the effect of making things even more confusing.</p>
+</li>
+
+<li>
+<p>You will go in assuming that you are smarter than the compiler. Believe me: you have never met a compiler like GHC. It is <strong>smarter than you</strong>, and the best thing to do is to let it help you rather than trying to fight it. Do not try to guess the types of your functions: at first, you will be wrong at least 50% of the time. GHC/GHCi will help you figure things out until you gain more confidence.</p>
+</li>
+</ul>
+
+<h2 id="the_ugly">The Ugly</h2>
+
+<ul>
+<li>
+<p>Cabal is still kind of a joke with regard to <strong>managing package dependencies</strong>. Sticking with the latest of everything tends to help, but there is still the problem that you cannot have the same version of the same package installed twice with different dependencies, and this can lead to problems.</p>
+</li>
+
+<li>
+<p><strong>Profiling seems to be disabled by default</strong>. Fortunately this is relatively easy to fix by enabling “library-profiling” in the .cabal/config file. But it’s one of those idiosyncrasies of the distribution that I wish hadn’t gotten in the way of more productive work.</p>
+</li>
+
+<li>
+<p>I don’t know of any easy-to-use (i.e. available, documented) <strong>packaging solutions</strong> to take Haskell binaries and send them out as Windows setup programs or Mac “app” packages.</p>
+</li>
+
+<li>
+<p>The presence of <a href="http://www.haskell.org/haddock">Haddock</a> for module documentation has led many Haskell developers to think that this counts as all the documentation they need to provide. The rest of us are then left with <strong>Haddock modules which are quite inscrutable and intimidating to newcomers</strong>. This seems like a pretty serious problem: lots of libraries are totally useless for lack of proper (i.e. non-Haddock) documentation in addition to the usual module documentation.</p>
+</li>
+</ul>
