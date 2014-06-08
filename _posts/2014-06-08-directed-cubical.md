@@ -17,4 +17,4 @@ essential to the correct visualization of the corner-reduction algo.
 At this point I punted and wrote the code to output files compatible with
 [ParaView](http://www.paraview.org) (and the specification, of course). ParaView
 gave me a quick assurance that the bug was with XTK and not me, and then I was
-able to generate some [cool animations](http://www.math.uwo.ca/mmisamor/animations).  
+able to generate some [cool animations](http://www.math.uwo.ca/~mmisamor/animations).  
