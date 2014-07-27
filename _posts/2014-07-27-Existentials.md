@@ -112,6 +112,6 @@ manipulate and sequence them in homogeneous containers**.
     "ball"
     "player"
 
-Yay! :-)
+This is all still completely statically type-checked. Yay! :-)
 
 
