@@ -68,7 +68,7 @@ constructor Mod :: Int -> Mod n. We want to be able to define addition as
 something like
 
     plus :: Mod n -> Mod n -> Mod n
-    plus (Mod m1) (Mod m2) = Mod $ (m1 + m2) `mod` (reify n)
+    plus (Mod m1) (Mod m2) = Mod $ (m1 + m2) `mod` (reify (undefined :: n))
 
 where reify takes the type-level natural n to the corresponding term-level
 natural. GHC [provides such
@@ -101,6 +101,59 @@ The analogous definition
     let subS :: a :* b -> a; subS _ = undefined
 
 compiles without a hitch, so we are definitely dealing with limitations of the
-typesystem here. Anyway, that's enough of the deep dive into the GHC type system
-for now. 
+typesystem here. Instead we can go for the less-typesafe approach, introducing
+our own constructors of kind * and * -> *:
+
+    -- | Boring * kinds instead of Nat. Loses some type safety since
+    --   things like "S Char" are valid types under this scheme.
+    data Z
+    data S n
+
+    -- | What we couldn't do before: strip off type constructor.
+    predS :: S n -> n
+    predS _ = undefined
+    
+    -- | Constrain reifyable stuff via a typeclass
+    class Reify a where
+       reify :: a -> Integer
+    instance Reify Z where reify _ = 0
+    instance (Reify n) => Reify (S n) where
+       reify = (1 +) . reify . predS
+  
+    -- | Phantom type encodes the modulus; data constructor encodes value
+    data Mod n = Mod Integer
+
+So far, so good. The instance of Reify for types S n requires the structure
+stated here to compile sucessfully, instead of something more obvious like reify
+_ = 1 + reify (undefined :: n). Amusingly, more naive reification code like
+
+    data Zero
+    data Succ n
+    
+    class Nat n where
+        toInt :: n -> Int
+    instance Nat Zero where
+        toInt _ = 0
+    instance (Nat n) => Nat (Succ n) where
+        toInt _ = 1 + toInt (undefined :: n)
+
+which was written by some [very famous
+people](http://research.microsoft.com/en-us/um/people/simonpj/papers/assoc-types/fun-with-type-funs/typefun.pdf)
+fails to compile on this version of GHC!
+
+    Could not deduce (Nat n0) arising from a use of `toInt'
+    from the context (Nat n)
+    bound by the instance declaration at [...]
+
+Now here is what modular addition should look like again, and it almost works.
+
+    plus :: (Reify n) => Mod n -> Mod n -> Mod n
+    plus (Mod m1) (Mod m2) = Mod $ (m1 + m2) `mod` (reify (undefined :: n))
+
+The compiler encounters trouble here because, despite my telling it that n
+is reifyable, it wants to know the actual type of n. Putting in S Z for n fixes
+the problem, so this seems like another technicality; in fact, it seems to be
+the same technicality that causes the experts' code above to fail. Too bad...
+but one can see why they just punted and put the functionality directly into the
+compiler with "KnownNat", etc.
 
