@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Fun with Monogenic semigroups 
+title: Fun with Monogenic Semigroups 
 tags: [semigroups, automata]
 ---
 
