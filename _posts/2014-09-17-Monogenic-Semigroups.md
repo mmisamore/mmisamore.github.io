@@ -54,7 +54,7 @@ comfort zone of thinking in terms of groups, especially with respect to having
 negative exponents available. It's also kind of surprising that a statement like
 this could be true in this generality. Of course, there are *infinite*
 semigroups that have no idempotents at all (and therefore no identity element):
-the canonical example is \\(\mathbb{N}\\), so finite semigroups are pretty
+the canonical example is \\(\mathbb{N}, +\\), so finite semigroups are pretty
 special in this way. There are also infinite semigroups where *every* element is
 an idempotent: my favorite example of this so far is \\((\mathbb{Z},
 \mathrm{min})\\).
