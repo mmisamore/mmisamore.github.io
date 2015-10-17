@@ -53,7 +53,7 @@ Finally, we can serialize/deserialze the tests themselves to different formats
 via interpreters.  If you want to serialize a test to a readable Cucumber-like
 specification that you can pass to a product owner, go ahead. If you want to
 communicate your tests via JSON, we can do that too. Store your tests in a
-database if we feel like it.
+database if you feel like it.
 
 So, I've been playing with writing a DSL that implements these ideas with
 interpreters for free monads. Thus far it seems pretty successful and I haven't
