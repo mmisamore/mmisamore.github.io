@@ -52,7 +52,7 @@ that we are getting consistent results between implementations.
 Finally, we can serialize/deserialze the tests themselves to different formats
 via interpreters.  If you want to serialize a test to a readable Cucumber-like
 specification that you can pass to a product owner, go ahead. If you want to
-communicate your tests via JSON, we can do that too. Store your tests in a
+communicate your tests via JSON, you can do that too. Store your tests in a
 database if you feel like it.
 
 So, I've been playing with writing a DSL that implements these ideas with
