@@ -49,7 +49,7 @@ on our tests to build new tests: filtering/replacing steps, repeating steps,
 embedding other tests, etc. We can even write separate interpreters to ensure
 that we are getting consistent results between implementations.  
 
-Finally, we can serialize/deserialze the tests themselves to different formats
+Finally, we can serialize/deserialize the tests themselves to different formats
 via interpreters.  If you want to serialize a test to a readable Cucumber-like
 specification that you can pass to a product owner, go ahead. If you want to
 communicate your tests via JSON, you can do that too. Store your tests in a
