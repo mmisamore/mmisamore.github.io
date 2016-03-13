@@ -10,7 +10,7 @@ proper definition of free monoids in the category of Haskell types. By thinking
 about universal properties in category theory, it is easy to see that the proper
 type for \\(f a\\), the free monoid on any type "a", is given by
 
-\\(f a = \forall m. \textrm{Monoid } m => (a \to m) \to m\\).
+\\(\qquad f a = \forall m. \textrm{Monoid } m => (a \to m) \to m\\).
 
 This definition is obviously implicit: the free monoid on "a" is the universal
 thing such that when given a map \\(a \to m\\) where "m" is any monoid, we can
@@ -31,7 +31,7 @@ much larger underlying set than we started with. We can imagine weakening the
 constraints on \\(m\\) from monoids to semigroups to magmas and then... nothing.
 But what do we get in this limit? Here is the type:
 
-\\(\forall r. (a \to r) \to r\\)
+\\(\qquad \forall r. (a \to r) \to r\\)
 
 This is the "universal" thing one gets on a type "a" by taking the closure under
 no operations whatsoever. Without the quantifier on "r" this would be the
@@ -48,7 +48,7 @@ construction is a natural isomorphism by the Yoneda lemma: replace the target
 Generalizing a bit to the full codensity along an arbitrary functor "f" gives
 the type
 
-\\(\textrm{Codensity}\, f\, a = \forall r. (a \to f r) \to f r\\)
+\\(\qquad \textrm{Codensity}\, f\, a = \forall r. (a \to f r) \to f r\\)
 
 In particular there is still a map \\(\eta: a \to \textrm{Codensity}\, f\, a\\)
 given by flipped evaluation at "a", but we have fattened up "a" via "f" so we
@@ -57,11 +57,11 @@ cannot expect to be isomorphic to "a" anymore. Nevertheless, if "f" admits a
 element of "f a" after applying the continuation. If "f" is a Monad then we can
 go the other direction:
 
-\\(\textrm{lift} :: f a \to \forall r. ((a \to f r) \to f r)\\)
+\\(\qquad \textrm{lift} :: f a \to \forall r. ((a \to f r) \to f r)\\)
 
 is essentially just ">>=" for f. In any event, there is also an interesting map
 
-\\(\textrm{fmap}\, \eta: \textrm{Codensity}\, f\, a \to \textrm{Codensity}\, f\, (\textrm{Codensity}\, f\, a)\\)
+\\(\qquad \textrm{fmap}\, \eta: \textrm{Codensity}\, f\, a \to \textrm{Codensity}\, f\, (\textrm{Codensity}\, f\, a)\\)
 
 This means that within any Codensity computation I have access to the
 continuation itself; this reminds me of call/cc for ordinary continuations.
