@@ -1,0 +1,96 @@
+baseURL = 'https://mmisamore.github.io/'
+languageCode = 'en-us'
+title = 'Mathematics and Machines'
+author = 'Michael D. Misamore'
+copyright = 'Michael D. Misamore'
+theme = 'hugo-blog-awesome'
+defaultContentLanguage = "en-us"
+enableEmoji = true
+ignoreErrors = ["additional-script-loading-error"]
+
+# set markup.highlight.noClasses=false to enable code highlight
+[markup]
+  [markup.highlight]
+    noClasses = false
+  [markup.goldmark.renderer]
+    unsafe = true
+	[markup.tableOfContents]
+		startLevel = 2 # ToC starts from H2
+		endLevel = 4 # ToC ends at H4
+		ordered = false # generates <ul> instead of <ol>
+
+############################## English language ################################
+[Languages.en-us]
+  languageName = "English"
+  languageCode = "en-us"
+  contentDir = "content/en"
+  weight = 1
+
+  [Languages.en-us.menu]
+  [[Languages.en-us.menu.main]]
+    # The page reference (pageRef) is useful for menu highlighting
+    # When pageRef is set, setting `url` is optional; it will be used as a fallback if the page is not found.
+    pageRef="/"
+    name = 'Home'
+    url = '/'
+    weight = 10
+  [[Languages.en-us.menu.main]]
+    pageRef="posts"
+    name = 'Posts'
+    url = '/posts/'
+    weight = 20
+  [[Languages.en-us.menu.main]]
+    pageRef="about"
+    name = 'About'
+    url = '/about/'
+    weight = 30
+
+[Languages.en-us.params]
+  sitename = "Mathematics and Machines"
+  github = "Michael D. Misamore"
+  defaultColor = "dark" # set color mode: dark, light, auto
+  description = "What is 'Pure' Today could be 'Applied' Tomorrow"
+  mainSections = ['posts']
+  toc = false # set to false to disable table of contents 'globally'
+  tocOpen = false # set to true to open table of contents by default
+  goToTop = true # set to false to disable 'go to top' button
+  additionalScripts = ['js/custom.js', 'js/custom-2.js']
+  dateFormat = "2006-01-02" # date format used to show dates on various pages. If nothing is specified, then "2 Jan 2006" format is used.
+  rssFeedDescription = "summary" # available options: 1) summary 2) full
+
+[Languages.en-us.params.author]
+  avatar = "avatar.jpg" # put the file in assets folder; also ensure that image has same height and width
+  intro = "Mathematics and Machines"
+  name = "Michael D. Misamore"
+  description = "What is 'Pure' Today could be 'Applied' Tomorrow"
+
+# Allow to override webmanifest options
+[Languages.en-us.params.webmanifest]
+  name = "sitename" # will use "params.sitename" or "title" by default
+  short_name = "sitename" # same as name
+  start_url = "/" # will use homepage url by default
+  theme_color = "#434648" # default is "#434648" (base color of text). Also will override html `<meta name="theme-color" />`
+  background_color = "#fff" # by default depend on "params.defaultColor" for "light" or "auto" will be set to "#fff" for dark will be "#131418" (color of dark mode background)
+  display = "standalone"
+
+#################### END LANGUAGE SETTINGS #####################################
+
+# Allow to override `browserconfig.xml` params (configuration for windows embedded browsers)
+[params.browserconfig]
+  TileColor = "#2d89ef" # default windows 10 blue tile color
+
+[[params.socialIcons]]
+name = "github"
+url = "https://github.com/mmisamore"
+
+[[params.socialIcons]]
+name = "mastodon"
+url = "https://sigmoid.social/@mmisamore"
+
+[[params.socialIcons]]
+name = "linkedin"
+url = "https://www.linkedin.com/in/michael-misamore-b81442b6/"
+
+[[params.socialIcons]]
+name = "RSS"
+url = "index.xml"
