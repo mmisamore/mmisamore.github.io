@@ -1,11 +1,11 @@
 ---
-title: Perfectly Correlated Bernoulii Random Variables 
+title: Perfectly Correlated Bernoulli Random Variables 
 date: 2024-01-06 
 tags: 
   - probability 
 ---
 
-Here is a fun little exercise: show that any two perfectly correlated Bernoulii random variables \\(X\\) and \\(Y\\) must be
+Here is a fun little exercise: show that any two perfectly correlated Bernoulli random variables \\(X\\) and \\(Y\\) must be
 equal. 
 
 Proof: The assumption can be stated as
